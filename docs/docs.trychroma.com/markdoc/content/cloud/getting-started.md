@@ -1,23 +1,23 @@
 # Chroma Cloud
 
-Our fully managed hosted service, **Chroma Cloud** is here. [Sign up for free](https://trychroma.com/signup).
+完全管理型ホストサービスである **Chroma Cloud** が登場しました。[無料で登録](https://trychroma.com/signup) できます。
 
-**Chroma Cloud** is a managed offering of [Distributed Chroma](../docs/overview/architecture), operated by the same database and search engineers who designed the system. Under the hood, it's the exact same Apache 2.0–licensed Chroma—no forks, no divergence, just the open-source engine running at scale. Chroma Cloud is serverless - you don’t have to provision servers or think about operations, and is billed [based on usage](./pricing)
+**Chroma Cloud** は [Distributed Chroma](../docs/overview/architecture) を基にしたマネージドサービスであり、システムの設計を行った同じデータベースおよび検索エンジニアによって運用されています。中核的には、フォークや差異化のない、まったく同じ Apache 2.0 ライセンスの Chroma を使用しており、スケーラブルな形でオープンソースのエンジンを提供しています。Chroma Cloud はサーバーレスであり、サーバーのプロビジョニングや運用の心配をする必要がなく、[使用量に基づいた課金](./pricing) 方式を採用しています。
 
-### Easy to use and operate
+### 使いやすく、運用も簡単
 
-Chroma Cloud is designed to require minimal configuration while still delivering top-tier performance, scale, and reliability. You can get started in under 30 seconds, and as your workload grows, Chroma Cloud handles scaling automatically—no tuning, provisioning, or operations required. Its architecture is built around a custom Rust-based execution engine and high-performance vector and full-text indexes, enabling fast query performance even under heavy loads.
+Chroma Cloud は、最小限の設定でトップクラスのパフォーマンス、スケーラビリティ、信頼性を提供するように設計されています。30秒以内に使い始めることができ、ワークロードが増加しても自動的にスケーリングを処理します。チューニングやプロビジョニング、運用作業は一切不要です。そのアーキテクチャは、カスタムの Rust ベース実行エンジンや高性能なベクトルおよび全文検索インデックスを基盤としており、高負荷下でも高速なクエリ性能を実現します。
 
-### Reliability
+### 信頼性
 
-Reliability and accuracy are core to the design. Chroma Cloud is thoroughly tested, with production systems achieving over 90% recall and being continuously monitored for correctness. Thanks to its object storage–based persistence layer, Chroma Cloud is often an order of magnitude more cost-effective than alternatives, without compromising on performance or durability.
+信頼性と精度は設計の中心にあります。Chroma Cloud は広範なテストが行われ、実際のシステムでは 90% 以上の再現率を達成しており、正確性の維持のために継続的に監視されています。オブジェクトストレージベースの永続化レイヤーにより、パフォーマンスや耐障害性を損なうことなく、代替手段と比べてコストが1桁低いことがよくあります。
 
-### Security and Deployment
+### セキュリティと導入オプション
 
-Chroma Cloud is SOC 2 Type I certified (Type II in progress), and offers deployment flexibility to match your needs. You can sign up for our fully-managed multi-tenant cluster currently running in AWS us-east-1 or contact us for single-tenant deployment managed by Chroma or hosted in your own VPC (BYOC). If you ever want to self-host open source Chroma, we will help you transition your data from Cloud to your self-managed deployment.
+Chroma Cloud は SOC 2 Type I 認定を取得しており（Type II は審査中）、さまざまなニーズに対応する導入の柔軟性を提供します。現在 AWS us-east-1 で動作している完全に管理されたマルチテナントクラスターに登録することも、シングルテナントの導入やご自身の VPC 内でのホスティング（BYOC）を Chroma が管理する形での導入も可能です。オープンソースの Chroma を自身でホストしたい場合、クラウドからセルフホスティングへのデータ移行をサポートします。
 
-### Dashboard
+### ダッシュボード
 
-Our web dashboard lets your team work together to view your data, and ensure data quality in your collections with ease. It also serves as a touchpoint for you to view billing data and usage telemetry.
+ウェブダッシュボードにより、チームでデータを確認し、コレクション内のデータ品質を簡単に維持することが可能です。また、請求データや使用状況のテレメトリを確認するための接点としても機能します。
 
-Chroma Cloud is open-source at its core, built on the exact same Apache 2.0 codebase available to everyone. Whether you’re building a prototype or running a mission-critical production workload, Chroma Cloud is the fastest path to reliable, scalable, and accurate retrieval.
+Chroma Cloud は本質的にオープンソースであり、誰もが利用可能なまったく同じ Apache 2.0 のコードベースに基づいて構築されています。プロトタイプの構築であっても、重要な業務システムのワークロードであっても、Chroma Cloud は信頼性が高く、スケーラブルで正確な検索を行う最短ルートを提供します。

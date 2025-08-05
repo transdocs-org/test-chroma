@@ -1,30 +1,30 @@
-# Pricing
+# 料金体系
 
-Chroma Cloud uses a simple, transparent, usage-based pricing model. You pay for what you use across **writes**, **reads**, and **storage**—with no hidden fees or tiered feature gating.
+Chroma Cloud はシンプルで透明性の高い従量課金モデルを採用しています。**書き込み**、**読み込み**、**ストレージ**の使用量に対してのみ支払いが発生し、隠れた費用や機能の階層制限（ティア制）はありません。
 
-Need an estimate? Try our [pricing calculator](https://trychroma.com/pricing).
+料金の概算を知りたいですか？ 当社の [料金計算ツール](https://trychroma.com/pricing) をご利用ください。
 
-## Writes
+## 書き込み
 
-Chroma Cloud charges **$2.50 per logical GiB** written via an add, update, or upsert.
+Chroma Cloud では、追加 (add)、更新 (update)、または挿入・更新 (upsert) によって書き込まれる**論理的な GiB あたり $2.50** を課金します。
 
-- A *logical GiB* is the raw, uncompressed size of the data you send to Chroma—regardless of how it's stored or indexed internally.
-- You are only billed once per write, not for background compactions or reindexing.
+- *論理的な GiB* とは、Chroma に送信するデータの生の、圧縮前のサイズを指します。内部での保存やインデックス方法は課金には影響しません。
+- 書き込みは一度だけ課金され、バックグラウンドでの圧縮や再インデックスは課金されません。
 
-## Reads
+## 読み込み
 
-Read costs are based on both the amount of data scanned and the volume of data returned:
+読み込みコストは、スキャンされるデータ量と返却されるデータ量の両方に基づいて計算されます：
 
-- **$0.0075 per TiB scanned**
-- **$0.09 per GiB returned**
+- **スキャンされる TiB あたり $0.0075**
+- **返却される GiB あたり $0.09**
 
-**How queries are counted:**
+**クエリのカウント方法：**
 
-- A single vector similarity query counts as one query.
-- Each metadata or full-text predicate in a query counts as an additional query.
-- Full-text and regex filters are billed as *(N – 2)* queries, where *N* is the number of characters in the search string.
+- 単一のベクトル類似度検索は 1 クエリとしてカウントされます。
+- クエリに含まれる各メタデータまたは全文検索の述語は、追加で 1 クエリとしてカウントされます。
+- 完全一致検索および正規表現フィルタは、検索文字列の文字数を *N* とすると *(N – 2)* クエリとして請求されます。
 
-**Example:**
+**例：**
 
 {% TabbedCodeBlock %}
 
@@ -48,33 +48,33 @@ await collection.query(
 
 {% /TabbedCodeBlock %}
 
-For the query above (a single vector search and a 10-character full-text search), querying against 10 GiB of data incurs:
+上記のクエリ（1 回のベクトル検索と 10 文字の全文検索）が 10 GiB のデータに対して課金されるのは：
 
-- 10,000 queries × 10 units (1 vector + 9 full-text) = 100,000 query units
-- 10 GiB = 0.01 TiB scanned → 100,000 × 0.01 TiB × $0.0075 = **$7.50**
+- 10,000 クエリ × 10 ユニット（1 回のベクトル検索 + 9 回の全文検索） = 100,000 クエリユニット
+- 10 GiB = 0.01 TiB のスキャン → 100,000 × 0.01 TiB × $0.0075 = **$7.50**
 
-## Storage
+## ストレージ
 
-Storage is billed at **$0.33 per GiB per month**, prorated by the hour:
+ストレージ料金は**GiB あたり月額 $0.33** で、時間単位で比例配分されます：
 
-- Storage usage is measured in **GiB-hours** to account for fluctuations over time.
-- Storage is billed based on the logical amount of data written.
-- All caching, including SSD caches used internally by Chroma, are not billed to you.
+- ストレージ使用量は時間変動を反映するため **GiB-時間** で測定されます。
+- ストレージ料金は書き込まれたデータの論理量に基づいて請求されます。
+- Chroma 内部で使用される SSD キャッシュを含むすべてのキャッシュは課金対象外です。
 
-## Frequently Asked Questions
+## よくある質問
 
-**Is there a free tier?**
+**無料枠はありますか？**
 
-We offer $5 in credits to new users.
+新規ユーザーには $5 分のクレジットを提供しています。
 
-**How is multi-tenancy handled for billing?**
+**請求におけるマルチテナントの扱いは？**
 
-Billing is account-based. All data across your collections and tenants within a Chroma Cloud account is aggregated for pricing.
+請求はアカウント単位で行われます。Chroma Cloud アカウント内での、すべてのコレクションおよびテナントにわたるデータが合計されて請求されます。
 
-**Can I deploy Chroma in my own VPC?**
+**自分の VPC に Chroma を展開できますか？**
 
-Yes. We offer a BYOC (bring your own cloud) option for single-tenant deployments. [Contact us](mailto:support@trychroma.com) for more details.
+はい。シングルテナント向けの展開として BYOC（Bring Your Own Cloud）オプションをご用意しています。詳細については [お問い合わせ](mailto:support@trychroma.com) ください。
 
-**Do I get charged for background indexing?**
+**バックグラウンドのインデックス処理には課金されますか？**
 
-No. You’re only billed for the logical data you write and the storage you consume. Background jobs like compaction or reindexing do not generate additional write or read charges.
+いいえ。書き込まれた論理データ量および使用するストレージ容量のみが請求対象となります。圧縮や再インデックスなどのバックグラウンド処理による追加の読み込み・書き込みには課金されません。

@@ -1,25 +1,25 @@
-# Quotas & Limits
+# クォータと制限
 
-To ensure the stability and fairness in a multi-tenant environment, Chroma Cloud enforces input and query quotas across all user-facing operations. These limits are designed to strike a balance between performance, reliability, and ease of use for the majority of workloads.
+マルチテナント環境における安定性と公平性を確保するため、Chroma Cloud では、すべてのユーザー向け操作に対して入力およびクエリのクォータを適用しています。これらの制限は、大多数のワークロードにおけるパフォーマンス、信頼性、使いやすさのバランスを重視して設計されています。
 
-Most quotas can be increased upon request, once a clear need has been demonstrated. If your application requires higher limits, please [contact us](mailto:support@trychroma.com). We are happy to help.
+ほとんどのクォータは、必要性が明確に示された場合に限り、リクエストに応じて引き上げることが可能です。アプリケーションがより高い制限を必要とする場合は、[お問い合わせ](mailto:support@trychroma.com)ください。喜んでお手伝いいたします。
 
-| **Quota** | **Value** |
+| **クォータ** | **値** |
 | --- | --- |
-| Maximum embedding dimensions | 3072 |
-| Maximum document bytes | 16,384 |
-| Maximum uri bytes | 128 |
-| Maximum ID size bytes  | 128 |
-| Maximum metadata value size bytes | 256 |
-| Maximum metadata key size bytes | 36 |
-| Maximum number of metadata keys | 16 |
-| Maximum number of where predicates  | 8 |
-| Maximum size of full text search or regex search | 256 |
-| Maximum number of results returned | 100 |
-| Maximum number of concurrent reads per collection | 5 |
-| Maximum number of concurrent writes per collection | 5 |
-| Maximum number of collections | 1,000,000 |
+| 最大埋め込み次元数 | 3072 |
+| 最大ドキュメントバイト数 | 16,384 |
+| 最大URIバイト数 | 128 |
+| 最大IDサイズ（バイト） | 128 |
+| 最大メタデータ値サイズ（バイト） | 256 |
+| 最大メタデータキーサイズ（バイト） | 36 |
+| メタデータキーの最大個数 | 16 |
+| where述語の最大個数 | 8 |
+| フルテキスト検索または正規表現検索の最大サイズ | 256 |
+| 戻り値として返される結果の最大個数 | 100 |
+| コレクションごとの同時読み込み処理の最大個数 | 5 |
+| コレクションごとの同時書き込み処理の最大個数 | 5 |
+| コレクションの最大個数 | 1,000,000 |
 
-These limits apply per request or per collection as appropriate. For example, concurrent read/write limits are tracked independently per collection, and full-text query limits apply to the length of the input string, not the number of documents searched.
+これらの制限は、適切に要求ごとまたはコレクションごとに適用されます。たとえば、同時読み込み・書き込み処理の制限はコレクションごとに個別に管理され、フルテキストクエリの制限は検索するドキュメント数ではなく入力文字列の長さに適用されます。
 
-If you expect to approach these limits, we recommend reaching out early so we can ensure your account is configured accordingly.
+これらの制限に達する可能性があると思われる場合は、早めにお問い合わせいただくことをお勧めします。アカウントが適切に設定されるよう対応いたします。
