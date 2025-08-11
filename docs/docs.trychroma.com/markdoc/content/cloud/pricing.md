@@ -1,36 +1,36 @@
-# Pricing
+# 定价
 
-Chroma Cloud uses a simple, transparent, usage-based pricing model. You pay for what you use across **writes**, **reads**, and **storage**—with no hidden fees or tiered feature gating.
+Chroma Cloud 使用简单透明的按使用量计费模式。您只需为您的 **写入**、**读取** 和 **存储** 付费，没有隐藏费用，也不通过层级划分限制功能。
 
-Need an estimate? Try our [pricing calculator](https://trychroma.com/pricing).
+需要估算费用？请尝试我们的 [定价计算器](https://trychroma.com/pricing)。
 
-## Writes
+## 写入
 
-Chroma Cloud charges **$2.50 per logical GiB** written via an add, update, or upsert.
+Chroma Cloud 对每次通过 `add`、`update` 或 `upsert` 操作写入的 **逻辑 GiB** 数据收取 **2.50 美元**。
 
-- A *logical GiB* is the raw, uncompressed size of the data you send to Chroma—regardless of how it's stored or indexed internally.
-- You are only billed once per write, not for background compactions or reindexing.
+- *逻辑 GiB* 是指您发送给 Chroma 的数据的原始、未压缩大小，与数据在内部如何存储或索引无关。
+- 每次写入仅计费一次，后台压缩或重新索引不重复计费。
 
-## Forking
+## 分叉（Forking）
 
-- Forking a collection costs **$0.03 per fork request**.
-- Forks are copy-on-write. You only pay for incremental storage written after the fork; unchanged data remains shared.
-- Forking is available on Chroma Cloud. Learn more on the [Collection Forking](./collection-forking) page.
+- 分叉集合的费用为每次分叉请求 **0.03 美元**。
+- 分叉采用写时复制机制。您只需为分叉后新增的存储数据付费，未更改的数据保持共享状态。
+- 分叉功能适用于 Chroma Cloud。了解更多信息，请查看 [集合分叉](./collection-forking) 页面。
 
-## Reads
+## 读取
 
-Read costs are based on both the amount of data scanned and the volume of data returned:
+读取费用基于扫描的数据量和返回的数据量：
 
-- **$0.0075 per TiB scanned**
-- **$0.09 per GiB returned**
+- **每 TiB 扫描收费 0.0075 美元**
+- **每 GiB 返回收费 0.09 美元**
 
-**How queries are counted:**
+**查询计数方式：**
 
-- A single vector similarity query counts as one query.
-- Each metadata or full-text predicate in a query counts as an additional query.
-- Full-text and regex filters are billed as *(N – 2)* queries, where *N* is the number of characters in the search string.
+- 单个向量相似性查询计为 1 次查询。
+- 查询中的每个元数据或全文搜索谓词额外计为 1 次查询。
+- 全文搜索和正则表达式过滤器的计费方式为 *(N – 2)* 次查询，其中 *N* 是搜索字符串中的字符数。
 
-**Example:**
+**示例：**
 
 {% TabbedCodeBlock %}
 
@@ -54,33 +54,33 @@ await collection.query(
 
 {% /TabbedCodeBlock %}
 
-For the query above (a single vector search and a 10-character full-text search), querying against 10 GiB of data incurs:
+对于上述查询（一次向量搜索和一次 10 个字符的全文搜索），在 10 GiB 数据中查询产生的费用为：
 
-- 10,000 queries × 10 units (1 vector + 9 full-text) = 100,000 query units
-- 10 GiB = 0.01 TiB scanned → 100,000 × 0.01 TiB × $0.0075 = **$7.50**
+- 10,000 次查询 × 10 个单位（1 个向量 + 9 个全文）= 100,000 查询单位
+- 10 GiB = 0.01 TiB 扫描 → 100,000 × 0.01 TiB × 0.0075 美元 = **7.50 美元**
 
-## Storage
+## 存储
 
-Storage is billed at **$0.33 per GiB per month**, prorated by the hour:
+存储费用为 **每月每 GiB 0.33 美元**，按小时比例计费：
 
-- Storage usage is measured in **GiB-hours** to account for fluctuations over time.
-- Storage is billed based on the logical amount of data written.
-- All caching, including SSD caches used internally by Chroma, are not billed to you.
+- 存储使用量以 **GiB 小时** 为单位，以反映随时间的变化。
+- 存储计费基于写入的逻辑数据量。
+- 所有缓存（包括 Chroma 内部使用的 SSD 缓存）均不计费。
 
-## Frequently Asked Questions
+## 常见问题
 
-**Is there a free tier?**
+**是否有免费层级？**
 
-We offer $5 in credits to new users.
+我们为新用户提供 5 美元的信用额度。
 
-**How is multi-tenancy handled for billing?**
+**多租户如何计费？**
 
-Billing is account-based. All data across your collections and tenants within a Chroma Cloud account is aggregated for pricing.
+计费基于账户。Chroma Cloud 账户内所有集合和租户的数据将统一汇总计费。
 
-**Can I deploy Chroma in my own VPC?**
+**我可以在自己的 VPC 中部署 Chroma 吗？**
 
-Yes. We offer a BYOC (bring your own cloud) option for single-tenant deployments. [Contact us](mailto:support@trychroma.com) for more details.
+可以。我们提供 BYOC（自带云）选项用于单租户部署。[联系我们](mailto:support@trychroma.com) 获取更多详情。
 
-**Do I get charged for background indexing?**
+**后台索引操作是否收费？**
 
-No. You’re only billed for the logical data you write and the storage you consume. Background jobs like compaction or reindexing do not generate additional write or read charges.
+不收费。您仅需为写入的逻辑数据和使用的存储付费。后台任务（如压缩或重新索引）不会产生额外的写入或读取费用。

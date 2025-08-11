@@ -9,16 +9,16 @@ import CloudSignUp from "@/components/header/cloud-signup";
 import HeaderNav from "@/components/header/header-nav";
 
 export const metadata: Metadata = {
-  title: 'Chroma Docs',
-  description: 'Documentation for ChromaDB',
+  title: 'Chroma 文档',
+  description: 'ChromaDB 的文档',
   openGraph: {
-    title: 'Chroma Docs',
-    description: 'Documentation for ChromaDB',
-    siteName: 'Chroma Docs',
+    title: 'Chroma 文档',
+    description: 'ChromaDB 的文档',
+    siteName: 'Chroma 文档',
     url: 'https://docs.trychroma.com',
     images: [
       {
-        url: 'https://docs.trychroma.com/og.png', // must be an absolute url
+        url: 'https://docs.trychroma.com/og.png', // 必须是绝对 URL
         width: 2400,
         height: 1256,
       },
@@ -28,13 +28,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Chroma Docs',
-    description: 'Documentation for ChromaDB',
+    title: 'Chroma 文档',
+    description: 'ChromaDB 的文档',
     site: 'trychroma',
     siteId: '1507488634458439685',
     creator: '@trychroma',
     creatorId: '1507488634458439685',
-    images: ['https://docs.trychroma.com/og.png'], // must be an absolute url
+    images: ['https://docs.trychroma.com/og.png'], // 必须是绝对 URL
   },
 }
 
@@ -60,22 +60,22 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <PostHogProvider>
-            {/* the primary page structure is all done here
-                first we make the page a large flex column container */}
+            {/* 主要页面结构在这里完成
+                首先我们将页面设置为一个大的 flex 列容器 */}
             <div className="relative z-10 flex flex-col h-dvh overflow-hidden">
-              {/* prevent the header from shrinking */}
+              {/* 防止头部区域缩小 */}
               <div className="shrink-0">
                 <Header />
                 <HeaderNav/>
               </div>
-              {/* have this container take up the remaining space and hide any overflow 
-                  the side bar and main page content will be rendered here and will 
-                  fill the available space and do their own scrolling */}
+              {/* 让此容器占据剩余空间并隐藏任何溢出内容
+                  侧边栏和主页面内容将在这里渲染并填满可用空间
+                  并执行它们自己的滚动操作 */}
               <div className="flex-1 overflow-y-hidden h-full">
                 {children}
               </div>
             </div>
-            {/* the cloud signup can live down here as it is position fixed */}
+            {/* 云服务注册组件可以放在这里，因为它是固定定位 */}
             <CloudSignUp />
           </PostHogProvider>
         </ThemeProvider>

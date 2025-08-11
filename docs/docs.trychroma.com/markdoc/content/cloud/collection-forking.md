@@ -1,25 +1,25 @@
-# Collection Forking
+# 集合分叉（Collection Forking）
 
-**Instant copy-on-write collection forking in Chroma Cloud.**
+**Chroma Cloud 中的即时写时复制集合分叉功能。**
 
-Forking lets you create a new collection from an existing one instantly, using copy-on-write under the hood. The forked collection initially shares its data with the source and only incurs additional storage for incremental changes you make afterward.
+分叉功能可让您从现有集合中即时创建一个新集合，其底层使用的是写时复制（copy-on-write）机制。分叉后的集合最初与源集合共享数据，仅在之后进行增量更改时才会产生额外的存储成本。
 
 {% Banner type="tip" %}
-**Forking is available in Chroma Cloud only.** The file system on single-node Chroma does not support forking.
+**分叉功能仅在 Chroma Cloud 中可用。** 单节点 Chroma 的文件系统不支持分叉。
 {% /Banner %}
 
-## How it works
+## 工作原理
 
-- **Copy-on-write**: Forks share data blocks with the source collection. New writes to either branch allocate new blocks; unchanged data remains shared.
-- **Instant**: Forking a collection of any size completes quickly.
-- **Isolation**: Changes to a fork do not affect the source, and vice versa.
+- **写时复制（Copy-on-write）**：分叉的集合与源集合共享数据块。对任一分支的新写入操作会分配新的数据块；未更改的数据保持共享状态。
+- **即时性**：无论集合大小如何，分叉操作均可快速完成。
+- **隔离性**：对分叉集合的更改不会影响源集合，反之亦然。
 
-## Try it
+## 尝试使用
 
-- **Cloud UI**: Open any collection and click the "Fork" button.
-- **SDKs**: Use the fork API from Python or JavaScript.
+- **云控制台 UI**：打开任意集合并点击“Fork”按钮。
+- **SDK**：使用 Python 或 JavaScript 的 fork API。
 
-### Examples
+### 示例代码
 
 {% TabbedCodeBlock %}
 
@@ -27,11 +27,11 @@ Forking lets you create a new collection from an existing one instantly, using c
 ```python
 source_collection = client.get_collection(name="main-repo-index")
 
-# Create a forked collection. Name must be unique within the database.
+# 创建一个分叉集合。名称在数据库中必须唯一。
 forked_collection = source_collection.fork(name="main-repo-index-pr-1234")
 
-# Forked collection is immediately queryable; changes are isolated
-forked_collection.add(documents=["new content"], ids=["doc-pr-1"])  # billed as incremental storage
+# 分叉后的集合可立即查询；更改是隔离的
+forked_collection.add(documents=["new content"], ids=["doc-pr-1"])  # 按增量存储计费
 ```
 {% /Tab %}
 
@@ -39,41 +39,38 @@ forked_collection.add(documents=["new content"], ids=["doc-pr-1"])  # billed as 
 ```typescript
 const sourceCollection = await client.getCollection({ name: "main-repo-index" });
 
-// Create a forked collection. Name must be unique within the database.
+// 创建一个分叉集合。名称必须在数据库中唯一。
 const forkedCollection = await sourceCollection.fork({ name: "main-repo-index-pr-1234" });
 
 await forkedCollection.add({
   ids: ["doc-pr-1"],
-  documents: ["new content"], // billed as incremental storage
+  documents: ["new content"], // 按增量存储计费
 });
 ```
 {% /Tab %}
 
 {% /TabbedCodeBlock %}
 
-[In this notebook](https://github.com/chroma-core/chroma/blob/main/examples/advanced/forking.ipynb) you can find a comprehensive demo, where we index a codebase in a Chroma collection, and use forking to efficiently create collections for new branches.
+[在本笔记本](https://github.com/chroma-core/chroma/blob/main/examples/advanced/forking.ipynb)中，您可以找到一个完整的演示。我们将一个代码库索引到 Chroma 集合中，并使用分叉功能高效地为新分支创建集合。
 
-## Pricing
+## 定价
 
-- **$0.03 per fork call**
-- **Storage**: You only pay for incremental blocks written after the fork (copy-on-write). Unchanged data remains shared across branches.
+- **每次分叉调用 $0.03**
+- **存储**：您只需为分叉后写入的增量数据块付费（基于写时复制）。未更改的数据在各分支间保持共享。
 
-## Quotas and errors
+## 配额与错误
 
-Chroma limits the number of fork edges in your fork tree. Every time you call "fork", a new edge is created from the parent to the child.  The count includes edges created by forks on the root collection and on any of its descendants; see the diagram below. The current default limit is **4,096** edges per tree. If you delete a collection, its edge remains in the tree and still counts.
+Chroma 对您的分叉树中的分叉边数有限制。每次调用“fork”时，都会从父集合到子集合创建一条新的边。该限制包括根集合及其所有后代创建的边；请参见下图。当前默认限制为每棵树 **4,096** 条边。如果您删除了一个集合，其对应的边仍会保留在树中并计入配额。
 
-If you exceed the limit, the request returns a quota error for the `NUM_FORKS` rule. In that case, create a new collection with a full copy to start a fresh root.
+如果超过此限制，请求将返回针对 `NUM_FORKS` 规则的配额错误。在这种情况下，您可以创建一个完整复制的新集合，以开启一个全新的根集合。
 
-{% MarkdocImage lightSrc="/fork-edges-light.png" darkSrc="/fork-edges-dark.png" alt="Fork edges diagram" /%}
+{% MarkdocImage lightSrc="/fork-edges-light.png" darkSrc="/fork-edges-dark.png" alt="分叉边示意图" /%}
 
+## 使用分叉的适用场景
 
-## When to use forking
+- **数据版本控制 / 检查点设置**：在数据演变过程中维护一致的快照。
+- **类 Git 工作流**：例如，通过从分支的分叉点进行分叉，然后将差异应用到分叉集合中。与重新摄入整个数据集相比，这种方式可以节省写入和存储成本。
 
-- **Data versioning/checkpointing**: Maintain consistent snapshots as your data evolves.
- - **Git-like workflows**: For example, index a branch by forking from its divergence point, then apply the diff to the fork. This saves both write and storage costs compared to re-ingesting the entire dataset.
+## 注意事项
 
-## Notes
-
-- Your forked collections will belong to the same database as the source collection.
-
-
+- 您的分叉集合将始终与源集合位于同一个数据库中。
